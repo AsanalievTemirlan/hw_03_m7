@@ -1,0 +1,128 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_700"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.make.MakeFragment">
+
+    <EditText
+        android:textColor="@color/white"
+        android:id="@+id/et_title"
+        android:layout_width="316dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:textColor="@color/white"
+        android:id="@+id/et_description"
+        android:layout_width="match_parent"
+        android:gravity="top"
+        android:layout_height="400dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="280dp"
+        android:hint="@string/description"
+        android:textColorHint="@color/white" />
+
+
+    <TextView
+        android:layout_marginStart="10dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center|start"
+        android:layout_marginTop="100dp"
+        android:id="@+id/timeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_time"
+        android:textSize="18sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_gravity="center|start"
+        android:layout_marginTop="160dp"
+        android:id="@+id/selectTimeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0C9E89"
+        android:text="@string/select_time"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="center|end"
+        android:layout_marginTop="100dp"
+        android:id="@+id/dosageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0C9E89"
+        android:text="@string/select_dosage"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_gravity="center|end"
+        android:layout_marginTop="160dp"
+        android:id="@+id/selectDosageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0C9E89"
+        android:text="@string/select_dosage"
+        android:textColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:contentDescription="Close"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+
+    <CheckBox
+        android:id="@+id/delayedTimeCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="70dp"
+        android:text="@string/to_postpone_the_medicine"
+        android:textColor="@color/black" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="@string/add"
+            android:textColor="@color/teal_700" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/change"
+            android:textColor="@color/teal_700" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delayedMedicineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#0C9E89"
+            android:enabled="false"
+            android:text="@string/delayed_medication"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</FrameLayout>

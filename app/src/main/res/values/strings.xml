@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">hw_03_m7</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="plus">+</string>
+    <string name="to_postpone_the_medicine">To postpone the medicine</string>
+    <string name="change">Change</string>
+    <string name="add">Add</string>
+    <string name="delayed_medication">Delayed medication</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="select_dosage">Select Dosage</string>
+    <string name="select_time">Select Time</string>
+</resources>
