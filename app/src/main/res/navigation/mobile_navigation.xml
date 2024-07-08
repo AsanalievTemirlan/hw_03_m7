@@ -9,7 +9,11 @@
         android:id="@+id/navigation_medicines"
         android:name="com.example.hw_03_m7.ui.medicines.MedicinesFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_medicines" />
+        tools:layout="@layout/fragment_medicines" >
+        <action
+            android:id="@+id/action_navigation_medicines_to_navigation_make"
+            app:destination="@id/navigation_make" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -21,5 +25,16 @@
         android:id="@+id/navigation_make"
         android:name="com.example.hw_03_m7.ui.make.MakeFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_make" />
+        tools:layout="@layout/fragment_make" >
+        <action
+            android:id="@+id/action_navigation_make_to_navigation_medicines"
+            app:destination="@id/navigation_medicines" />
+        <argument
+            android:name="medicinesId"
+            app:argType="integer" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.hw_03_m7.ui.activity.MainActivity"
+        android:label="MainActivity" />
 </navigation>

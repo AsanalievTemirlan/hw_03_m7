@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hw_03_m7.data.model.MedicinesModel
 import com.example.hw_03_m7.databinding.ItemMedicinesBinding
+import com.example.hw_03_m7.ui.interfaces.OnClickItem
 
-class MedicinesAdapter :
+class MedicinesAdapter(private val onLongClickItem: OnClickItem, private val onClickItem: OnClickItem) :
     androidx.recyclerview.widget.ListAdapter<MedicinesModel, MedicinesAdapter.ViewHolder>(
         DiffCallback()
     ) {
@@ -30,7 +31,13 @@ class MedicinesAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-
+        holder.itemView.setOnLongClickListener {
+            onLongClickItem.onLongClick(getItem(position))
+            true
+        }
+        holder.itemView.setOnClickListener {
+            onClickItem.onClick(getItem(position))
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<MedicinesModel>() {

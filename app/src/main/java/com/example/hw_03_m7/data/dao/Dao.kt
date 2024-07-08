@@ -15,12 +15,15 @@ interface Dao {
     @Query("SELECT * FROM model")
     fun getAllMedicines():  LiveData<List<MedicinesModel>>
 
+    @Query("SELECT * FROM model WHERE id = :id")
+    fun getMedicineById(id: Int): LiveData<MedicinesModel>
+
     @Insert
-    fun insertMedicines(medicines: MedicinesModel)
+    suspend fun insertMedicines(medicines: MedicinesModel)
 
     @Delete
-    fun deleteMedicines(medicines: MedicinesModel)
+    suspend fun deleteMedicines(medicines: MedicinesModel)
 
     @Update
-    fun updateMedicines(medicines: MedicinesModel)
+    suspend fun updateMedicines(medicines: MedicinesModel)
 }

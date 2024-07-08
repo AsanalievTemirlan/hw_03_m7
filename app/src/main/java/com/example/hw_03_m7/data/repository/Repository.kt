@@ -9,11 +9,18 @@ class Repository @Inject constructor(private val dao: Dao) {
 
     fun getAll(): LiveData<List<MedicinesModel>> = dao.getAllMedicines()
 
+    fun getMedicineById(id: Int): LiveData<MedicinesModel> {
+        return dao.getMedicineById(id)
+    }
+
     suspend fun insert(medicinesModel: MedicinesModel) {
         dao.insertMedicines(medicinesModel)
     }
 
     suspend fun delete(medicinesModel: MedicinesModel) {
         dao.deleteMedicines(medicinesModel)
+    }
+    suspend fun update(medicinesModel: MedicinesModel){
+        dao.updateMedicines(medicinesModel)
     }
 }
