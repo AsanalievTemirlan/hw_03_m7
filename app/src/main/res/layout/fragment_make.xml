@@ -8,53 +8,53 @@
     tools:context=".ui.make.MakeFragment">
 
     <EditText
-        android:textColor="@color/white"
         android:id="@+id/et_title"
         android:layout_width="316dp"
         android:layout_height="wrap_content"
         android:hint="@string/title"
+        android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
     <EditText
-        android:textColor="@color/white"
         android:id="@+id/et_description"
         android:layout_width="match_parent"
-        android:gravity="top"
         android:layout_height="400dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="280dp"
+        android:gravity="top"
         android:hint="@string/description"
+        android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
 
     <TextView
-        android:layout_marginStart="10dp"
-        android:textColor="@color/white"
-        android:layout_gravity="center|start"
-        android:layout_marginTop="100dp"
         android:id="@+id/timeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="100dp"
         android:text="@string/select_time"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <com.google.android.material.button.MaterialButton
-        android:layout_gravity="center|start"
-        android:layout_marginTop="160dp"
         android:id="@+id/selectTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:layout_marginTop="160dp"
         android:backgroundTint="#0C9E89"
         android:text="@string/select_time"
         android:textColor="@color/white" />
 
     <TextView
-        android:layout_marginEnd="10dp"
-        android:layout_gravity="center|end"
-        android:layout_marginTop="100dp"
         android:id="@+id/dosageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="10dp"
         android:backgroundTint="#0C9E89"
         android:text="@string/select_dosage"
         android:textColor="@color/white"
@@ -62,11 +62,11 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:layout_gravity="center|end"
-        android:layout_marginTop="160dp"
         android:id="@+id/selectDosageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginTop="160dp"
         android:backgroundTint="#0C9E89"
         android:text="@string/select_dosage"
         android:textColor="@color/white" />
@@ -81,13 +81,41 @@
 
 
     <CheckBox
-        android:id="@+id/delayedTimeCheckbox"
+        android:id="@+id/timeCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="70dp"
         android:text="@string/to_postpone_the_medicine"
         android:textColor="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/dateLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="70dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_date_selected"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/selectDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="@string/select_a_date"
+            android:textColor="@color/teal_700" />
+
+    </LinearLayout>
 
 
     <LinearLayout

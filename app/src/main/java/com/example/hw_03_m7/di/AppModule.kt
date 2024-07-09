@@ -18,7 +18,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideRoomDataBase(@ApplicationContext context: Context): DataBase =
-        Room.databaseBuilder(context, DataBase::class.java, "DataBase").allowMainThreadQueries().build()
+        Room.databaseBuilder(context, DataBase::class.java, "DataBase").fallbackToDestructiveMigration().allowMainThreadQueries().build()
 
     @Provides
     fun provideDao(loveDataBase: DataBase): Dao {

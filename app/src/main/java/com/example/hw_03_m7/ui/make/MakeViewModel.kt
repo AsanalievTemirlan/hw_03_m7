@@ -1,6 +1,7 @@
 package com.example.hw_03_m7.ui.make
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,7 +26,9 @@ class MakeViewModel @Inject constructor(private val repository: Repository) : Vi
         }
     }
 
+
     fun getMedicineId(id: Int): LiveData<MedicinesModel> {
+        Log.e("TAG", "getMedicineId ${repository.getMedicineById(id)}")
         return repository.getMedicineById(id)
     }
 

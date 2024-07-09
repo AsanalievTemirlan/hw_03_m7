@@ -1,10 +1,9 @@
 package com.example.hw_03_m7.ui.make
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.hw_03_m7.R
 import com.example.hw_03_m7.data.model.MedicinesModel
 import com.example.hw_03_m7.databinding.FragmentMakeBinding
@@ -28,10 +27,8 @@ class MakeFragment : Fragment() {
 
     private var _binding: FragmentMakeBinding? = null
     private val binding get() = _binding!!
-    private var bottomNavView: BottomNavigationView? = null
     private val viewModel: MakeViewModel by viewModels()
-    private var btnPlus: Button? = null
-    private var medicineId = -1
+    private val args: MakeFragmentArgs by navArgs()
     private var existingMedicine: MedicinesModel? = null
 
     override fun onCreateView(
@@ -45,90 +42,116 @@ class MakeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomNavView = activity?.findViewById(R.id.nav_view)
+        val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavView?.visibility = View.GONE
         setupUI()
         setUpListeners()
         initialization()
         update()
+        checkBoxListener()
+    }
+
+    private fun checkBoxListener() = with(binding) {
+        timeCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                dateLayout.visibility = View.VISIBLE
+                delayedMedicineButton.isEnabled = true
+            } else {
+                dateLayout.visibility = View.GONE
+                delayedMedicineButton.isEnabled = false
+                dateTextView.text = null
+            }
+        }
     }
 
     private fun update() = with(binding) {
-        arguments?.let {
-            medicineId = it.getInt("medicineId", -1)
-        }
+        val medicineId = args.medicinesId
         if (medicineId != -1) {
             viewModel.getMedicineId(medicineId).observe(viewLifecycleOwner) { medicine ->
-                Log.e("TAG", "Update $medicine")
                 medicine?.let {
                     existingMedicine = it
                     etTitle.setText(it.title)
                     etDescription.setText(it.description)
                     dosageTextView.text = it.quantity.toString()
                     timeTextView.text = it.time
+                    dateTextView.text = it.date
                 }
             }
         }
     }
+
+    private fun handleMedicineAction(isUpdate: Boolean) = with(binding) {
+        val medicineName = etTitle.text.toString()
+        val description = etDescription.text.toString()
+        val dosageText = dosageTextView.text.toString()
+        val time = timeTextView.text.toString()
+        val date = dateTextView.text.toString() // Get selected date
+
+        if (medicineName.isEmpty() || dosageText.isEmpty() || time.isEmpty() || date.isEmpty() || description.isEmpty()) {
+            Toast.makeText(requireContext(), "Заполните все поля", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dosage = dosageText.toIntOrNull() ?: 1
+        if (dosage == 0) {
+            Toast.makeText(requireContext(), "Некорректная дозировка", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val medicinesModel = existingMedicine?.copy(
+            title = medicineName,
+            description = description,
+            quantity = dosage,
+            time = time,
+            date = date
+        ) ?: MedicinesModel(
+            title = medicineName,
+            description = description,
+            quantity = dosage,
+            time = time,
+            date = date
+        )
+
+        if (isUpdate) {
+            viewModel.updateMedicine(medicinesModel)
+            Toast.makeText(requireContext(), "Медикамент обновлен", Toast.LENGTH_SHORT).show()
+        } else {
+            viewModel.insertMedicines(medicinesModel)
+            Toast.makeText(requireContext(), "Медикамент добавлен", Toast.LENGTH_SHORT).show()
+        }
+        findNavController().navigate(R.id.navigation_medicines)
+    }
+
 
     private fun setUpListeners() = with(binding) {
         closeButton.setOnClickListener {
             findNavController().navigate(R.id.navigation_medicines)
         }
         addButton.setOnClickListener {
-            val medicineName = etTitle.text.toString()
-            val description = etDescription.text.toString()
-            val dosageText = dosageTextView.text.toString()
-            val time = timeTextView.text.toString()
+            handleMedicineAction(false)
+        }
+        changeButton.setOnClickListener {
+            handleMedicineAction(true)
+        }
+        delayedMedicineButton.setOnClickListener {
 
-            if (medicineName.isEmpty() || dosageText.isEmpty() || time.isEmpty() || description.isEmpty()) {
-                Toast.makeText(requireContext(), "Заполните все поля", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val dosage = dosageText.toIntOrNull() ?: 1
-            if (dosage == 0) {
-                Toast.makeText(requireContext(), "Некорректная дозировка", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-            }
-
-            val medicinesModel = existingMedicine?.copy(
-                title = medicineName,
-                description = description,
-                quantity = dosage,
-                time = time
-            ) ?: MedicinesModel(
-                title = medicineName,
-                description = description,
-                quantity = dosage,
-                time = time
-            )
-
-            if (existingMedicine != null) {
-                viewModel.updateMedicine(medicinesModel)
-                Toast.makeText(requireContext(), "Медикамент обновлен", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                viewModel.insertMedicines(medicinesModel)
-                Toast.makeText(requireContext(), "Медикамент добавлен", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-            findNavController().navigate(R.id.navigation_medicines)
         }
     }
 
-    private fun setupUI() {
-        binding.selectTimeButton.setOnClickListener {
+    private fun setupUI() = with(binding) {
+        selectTimeButton.setOnClickListener {
             showTimePickerDialog()
         }
-        binding.selectDosageButton.setOnClickListener {
+        selectDateButton.setOnClickListener {
+            showDatePickerDialog()
+        }
+        selectDosageButton.setOnClickListener {
             showDosagePickerDialog()
+
         }
     }
 
-    private fun showTimePickerDialog() {
+    private fun showTimePickerDialog() = with(binding) {
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
@@ -136,13 +159,29 @@ class MakeFragment : Fragment() {
         val timePickerDialog = TimePickerDialog(
             requireContext(),
             { _, selectedHour, selectedMinute ->
-                binding.timeTextView.text = String.format("%02d:%02d", selectedHour, selectedMinute)
+                timeTextView.text = String.format("%02d:%02d", selectedHour, selectedMinute)
             }, hour, minute, true
         )
         timePickerDialog.show()
     }
 
-    private fun showDosagePickerDialog() {
+    private fun showDatePickerDialog() = with(binding) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                dateTextView.text =
+                    String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+            }, year, month, day
+        )
+        datePickerDialog.show()
+    }
+
+    private fun showDosagePickerDialog() = with(binding) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Dosage")
 
@@ -153,7 +192,7 @@ class MakeFragment : Fragment() {
         builder.setPositiveButton("OK") { _, _ ->
             val dosage = input.text.toString()
             if (dosage.isNotEmpty()) {
-                binding.dosageTextView.text = dosage
+                dosageTextView.text = dosage
             } else {
                 Toast.makeText(requireContext(), "Dosage cannot be empty", Toast.LENGTH_SHORT)
                     .show()
@@ -165,13 +204,15 @@ class MakeFragment : Fragment() {
     }
 
     private fun initialization() {
-        btnPlus = activity?.findViewById(R.id.btn_plus)
+        val btnPlus = activity?.findViewById<Button>(R.id.btn_plus)
         btnPlus?.visibility = View.GONE
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavView?.visibility = View.VISIBLE
+        val btnPlus = activity?.findViewById<Button>(R.id.btn_plus)
         btnPlus?.visibility = View.VISIBLE
         _binding = null
     }

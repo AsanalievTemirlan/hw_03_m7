@@ -10,5 +10,6 @@ data class MedicinesModel(
     var title: String,
     var description: String,
     var time: String,
-    var quantity: Int
+    var quantity: Int,
+    var date: String? = null,
 )
