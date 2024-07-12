@@ -14,4 +14,5 @@
     <string name="select_time">Select Time</string>
     <string name="select_a_date">Select a date</string>
     <string name="no_date_selected">No date selected</string>
+    <string name="profile">Profile</string>
 </resources>

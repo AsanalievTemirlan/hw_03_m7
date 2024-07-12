@@ -24,7 +24,6 @@ import java.util.Calendar
 
 @AndroidEntryPoint
 class MakeFragment : Fragment() {
-
     private var _binding: FragmentMakeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MakeViewModel by viewModels()
@@ -85,7 +84,7 @@ class MakeFragment : Fragment() {
         val description = etDescription.text.toString()
         val dosageText = dosageTextView.text.toString()
         val time = timeTextView.text.toString()
-        val date = dateTextView.text.toString() // Get selected date
+        val date = dateTextView.text.toString()
 
         if (medicineName.isEmpty() || dosageText.isEmpty() || time.isEmpty() || date.isEmpty() || description.isEmpty()) {
             Toast.makeText(requireContext(), "Заполните все поля", Toast.LENGTH_SHORT).show()
@@ -147,6 +146,8 @@ class MakeFragment : Fragment() {
         }
         selectDosageButton.setOnClickListener {
             showDosagePickerDialog()
+        }
+        delayedMedicineButton.setOnClickListener {
 
         }
     }
